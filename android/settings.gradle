@@ -22,4 +22,15 @@ plugins {
     id "org.jetbrains.kotlin.android" version "1.8.22" apply false
 }
 
+// Workaround for app_links compatibility issue
+gradle.beforeProject { project ->
+    if (project.name == 'app_links') {
+        project.ext.flutter = [
+            compileSdkVersion: 34,
+            minSdkVersion: 21,
+            targetSdkVersion: 34
+        ]
+    }
+}
+
 include ":app"

@@ -8,6 +8,19 @@ allprojects {
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
+    
+    // Workaround for app_links compatibility issue with new Flutter Gradle plugin
+    afterEvaluate { project ->
+        if (project.name == 'app_links') {
+            project.android {
+                compileSdkVersion 34
+                
+                if (!project.android.hasProperty('namespace')) {
+                    namespace 'com.llfbandit.app_links'
+                }
+            }
+        }
+    }
 }
 subprojects {
     project.evaluationDependsOn(":app")
